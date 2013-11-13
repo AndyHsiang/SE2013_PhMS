@@ -3,6 +3,7 @@ package gui;
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 @SuppressWarnings("serial")
 public class DrugInventoryPage extends JPanel {
 	private JLabel enterNameL;
@@ -13,6 +14,15 @@ public class DrugInventoryPage extends JPanel {
 	private JButton remove;
 	private JButton search;
 	private JButton back;
+	private JTable table;
+	@SuppressWarnings("unused")
+	private JLabel warning;
+	private JTextArea general;
+	private JTextArea effects;
+	private JScrollPane i;
+	private JScrollPane j;
+	private JLabel generalL;
+	private JLabel effectsL;
 	DrugInventoryPage(Gui frame){
 		
 		GridBagConstraints c = new GridBagConstraints();
@@ -29,7 +39,7 @@ public class DrugInventoryPage extends JPanel {
 			 c.gridwidth=4;
 			 picLabel.add(enterNameL,c);
 			 this.enterNameT= new JTextField(15);
-			 c.insets= new Insets(0,0,20,0);
+			 c.insets= new Insets(0,0,25,0);
 			 enterNameT.setFont(new Font("Comic Sans",Font.BOLD, 15));
 			 c.gridx=0;
 			 c.gridy=1;
@@ -37,15 +47,17 @@ public class DrugInventoryPage extends JPanel {
 			 picLabel.add(enterNameT,c);
 			 this.search = new JButton ("Search");
 			 search.setPreferredSize(new Dimension(100, 20));
-			 c.insets= new Insets(0,0,20,0);
+			 c.insets= new Insets(0,0,25,0);
 			 c.gridx=3;
 			 c.gridy=1;
-			 c.gridwidth=1;
+			 c.gridwidth=4;
 			 picLabel.add(search,c);
+			 search.addActionListener(frame);
+			
 			 
-			 String[] columnNames={"Drug Name", "Quantity", "General Info", "Side Effects", "Controlled Flag" };
-				Object[][] data={{"Drug Name","Quantity","General Info","Side Effects","Controlled Flag"},{1,11,1,1,1}};
-				JTable table = new JTable(data, columnNames);
+			 String[] columnNames={"Drug Name", "Quantity", "Controlled Flag" };
+				Object[][] data={{"Drug Name","Quantity","Controlled Flag"},{0,0,0}};
+				table = new JTable(data, columnNames);
 				table.setPreferredSize(new Dimension(650,100 ));
 				table.setRowHeight(50);
 				c.insets= new Insets(0,0,20,0);
@@ -53,6 +65,19 @@ public class DrugInventoryPage extends JPanel {
 				c.gridy=2;
 				c.gridwidth=4;
 				picLabel.add(table,c);
+				 table.setGridColor(Color.black);
+				 table.setBackground(Color.decode("#CCEEEE"));
+				 Border border = BorderFactory.createLineBorder(Color.black);
+				 table.setBorder(border);
+				 /*table.addMouseListener(new MouseAdapter(){
+					 private void MouseClicked(final MouseEvent e){
+						 if (e.getClickCount() != 0)
+						 {
+							
+						 }
+					 }
+				 } */
+				 
 				
 				 this.addNew = new JButton ("Add New");
 				 addNew.addActionListener(frame);
@@ -108,6 +133,51 @@ public class DrugInventoryPage extends JPanel {
 				 c.gridy=4;
 				 c.gridheight=7;
 				 picLabel.add(drugHistory,c);
+				 drugHistory.setGridColor(Color.black);
+				 drugHistory.setBackground(Color.decode("#CCEEEE"));
+				 Border border1 = BorderFactory.createLineBorder(Color.black);
+				 drugHistory.setBorder(border1);
+				 
+				 this.general= new JTextArea();
+				 general.setColumns(15);
+				 general.setRows(20);
+				 general.setLineWrap(true);
+				 i = new JScrollPane(general);
+				 i.setPreferredSize(new Dimension(200, 100));
+				 general.setWrapStyleWord(true);
+				 general.setPreferredSize(new Dimension(170, 120));
+				 c.insets = new Insets(0,0,0,0);
+				 c.gridx=1;
+				 c.gridy=6;
+				 c.gridheight=1;
+				 picLabel.add(i,c);
+				 
+				 this.effects= new JTextArea();
+				 effects.setColumns(15);
+				 effects.setRows(20);
+				 effects.setLineWrap(true);
+				 j = new JScrollPane(effects);
+				 j.setPreferredSize(new Dimension(200, 100));
+				 effects.setWrapStyleWord(true);
+				 effects.setPreferredSize(new Dimension(170, 120));
+				 c.insets = new Insets(0,0,0,0);
+				 c.gridx=0;
+				 c.gridy=6;
+				 picLabel.add(j,c);
+				 
+				 this.effectsL = new JLabel("Side Effects:");
+				 effectsL.setFont(new Font("Comic Sans",Font.BOLD, 15));
+				 c.insets = new Insets(0,0,0,0);
+				 c.gridx=1;
+				 c.gridy=5;
+				 picLabel.add(effectsL,c);
+				 
+				 this.generalL = new JLabel("General Info:");
+				 generalL.setFont(new Font("Comic Sans",Font.BOLD, 15));
+				 c.insets = new Insets(0,0,0,0);
+				 c.gridx=0;
+				 c.gridy=5;
+				 picLabel.add(generalL,c);
 				
 				
 	}
@@ -120,4 +190,23 @@ public class DrugInventoryPage extends JPanel {
 	JButton getBackButton(){
 		return this.back;
 	}
+	JButton getSearch(){
+		return this.search;
+	}
+	JTextField getDName(){
+		return this.enterNameT;
+	}
+	public JTable getTable(){
+		return this.table;
+	}
+	public void setDName(){
+		this.enterNameT.setText("Not Found");
+	}
+public void setGeneralText(String general){
+	this.general.setText(general);
+	
+}
+public void setEffectsText(String effects){
+	this.effects.setText(effects);
+}
 }

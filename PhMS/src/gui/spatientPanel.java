@@ -9,6 +9,7 @@ public class spatientPanel extends JPanel{
 	private JButton search;
 	private JLabel searchPatient;
 	private JTextField enterPatient;
+	private JLabel warning;
 	
 	spatientPanel(Gui frame){
 		GridBagConstraints c = new GridBagConstraints();
@@ -50,6 +51,15 @@ public class spatientPanel extends JPanel{
 		c.gridy=2;
 		picLabel.add(back,c);
 		back.addActionListener(frame);
+		
+		//stuff
+		this.warning = new JLabel ("Warning");
+		c.insets = new Insets(20,20,0,0);
+		c.gridx=0;
+		c.gridy=0;
+		c.gridwidth=1;
+		picLabel.add(warning,c);
+		warning.setForeground(Color.red);
 	}
 	JButton getNewPatientButton() {
 		return this.newPatient;

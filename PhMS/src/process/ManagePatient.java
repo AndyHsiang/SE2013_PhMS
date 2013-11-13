@@ -12,12 +12,16 @@ import database.bean.Patient;
  * @author Andy
  */
 public class ManagePatient {
+	private static String[] splitString(String s){
+		String[] stringArray = s.split("\\s");
+		return stringArray;
+	}
 	/***
 	 * @param patientFullName
-	 * @return
+	 * @return patient if found
 	 */
 	public static Patient searchPatient(String patientFullName){
-		String[] patientName = patientFullName.split("\\s");
+		String[] patientName = splitString(patientFullName);
 		Patient bean = new Patient();
 		bean.setFirstName(patientName[0]);
 		bean.setLastName(patientName[1]);	
@@ -29,10 +33,31 @@ public class ManagePatient {
 	/**
 	 * @param patientFullName
 	 * @param phoneNum
-	 * @return
+	 * @return patient if found
 	 */
 	public static Patient searchPatient(String patientFullName, String phoneNum){
-		return null;
+		String[] patientName = splitString(patientFullName);
+		Patient bean = new Patient();
+		bean.setFirstName(patientName[0]);
+		bean.setLastName(patientName[1]);
+		bean.setPhone(phoneNum);
+		bean=(Patient)DatabaseProcess.getRow(bean);
+		if(bean!=null)
+			return bean;
+		else return null;
+	}
+	/**
+	 * overload search patient method
+	 * @param pid
+	 * @return patient if found
+	 */
+	public static Patient searchPatient(int pid){
+		Patient bean = new Patient();
+		bean.setPid(pid);
+		bean=(Patient)DatabaseProcess.getRow(bean);
+		if(bean!=null)
+			return bean;
+		else return null;
 	}
 	/**
 	 * This method populate the profile page to reflect the current patient
@@ -40,6 +65,7 @@ public class ManagePatient {
 	 * @param profilePage
 	 * @return true if the page has been populated with info without any error
 	 */
+	@SuppressWarnings("deprecation")
 	public static void setPatientProfilePage(Patient bean, PatientProfilePage profilePage){
 
 		profilePage.getpName().setText(bean.getFirstName()+" "+bean.getLastName());
@@ -67,6 +93,7 @@ public class ManagePatient {
 		int year = Integer.parseInt(d[0]);
 		int month = Integer.parseInt(d[1]);
 		int day = Integer.parseInt(d[2]);
+		@SuppressWarnings("deprecation")
 		Date dob = new Date(year, month, day);
 		
 		Patient newPat = new Patient();

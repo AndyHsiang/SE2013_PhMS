@@ -11,6 +11,7 @@ public class Credentials {
 	private static JTextField user;
 	private static JPasswordField pass;
 	
+	@SuppressWarnings("deprecation")
 	public static boolean UserInputs() {
 		
 		user = new JTextField(15);

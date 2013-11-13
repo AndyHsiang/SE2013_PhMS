@@ -553,8 +553,9 @@ public class DatabaseProcess {
 		rs = stmt.executeQuery();
 		if (rs.next()) {
 			Drug newBean = new Drug();
-			newBean.setDrugId(rs.getInt("pid"));
+			newBean.setDrugId(rs.getInt("drugid"));
 			newBean.setDrugName(rs.getString("drugname"));
+			newBean.setDescription(rs.getString("description"));
 			newBean.setQuantity(rs.getInt("quantity"));
 			newBean.setControlFlag(rs.getBoolean("controlflag"));
 			newBean.setSideEffect(rs.getString("sideeffect"));

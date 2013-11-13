@@ -3,9 +3,10 @@ package gui;
 
 import javax.swing.*;
 
+import database.bean.Drug;
 import database.bean.Employee;
 import database.bean.Patient;
-
+import process.ManageDrug;
 import process.ManagePatient;
 import process.ManageSystem;
 import process.helper.Credentials;
@@ -75,14 +76,15 @@ public class Gui extends JFrame implements ActionListener{
 		c.gridy=1;
 		picLabel.add(password, c);
 		loginPanel.setBackground(Color.gray);
+
 		
-		userField =new JTextField(15);
+		userField =new JTextField("manager",15);
 		c.fill=GridBagConstraints.HORIZONTAL;
 		c.gridx=1;
 		c.insets= new Insets(0,0,0,0);
 		c.gridy=0;
 		picLabel.add(userField, c);
-		passField =new JPasswordField(10);
+		passField =new JPasswordField("manager",10);
 		c.fill=GridBagConstraints.HORIZONTAL;
 		c.gridx=1;
 		c.gridy=1;
@@ -93,13 +95,15 @@ public class Gui extends JFrame implements ActionListener{
 		//Right now I just made it say warning so you can see where it'll be on the login page
 		//Change it however you like
 		//
-		warning = new JLabel("Warning");
+		warning = new JLabel(" ");
 		password.setFont(new Font("Comic Sans",Font.BOLD, 14));
 		c.fill=GridBagConstraints.HORIZONTAL;
 		c.insets= new Insets(0,0,0,0);
 		c.gridx=0;
 		c.gridy=5;
+		c.gridwidth=2;
 		picLabel.add(warning, c);
+		warning.setForeground(Color.red);
 
 		login = new JButton("Login");
 		login.setFont(new Font("Comic Sans",Font.BOLD, 16));
@@ -146,6 +150,7 @@ public class Gui extends JFrame implements ActionListener{
 		this.employeePage=new ManageEmployeePage(this);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==login){
 			warning.setText("");
@@ -202,6 +207,7 @@ public class Gui extends JFrame implements ActionListener{
 			if(InputChecker.fullName(fullName)){
 				Patient patientFound = ManagePatient.searchPatient(fullName);
 				if(patientFound!=null){
+					System.out.println(patientFound);
 					getContentPane().removeAll();
 					getContentPane().add(pProfileP);					
 					//This method has been added to populate the patient profile page to reflect the
@@ -297,6 +303,16 @@ public class Gui extends JFrame implements ActionListener{
 			revalidate();
 			repaint();
 		}
+		else if(e.getSource()==drugP.getSearch()){
+			String drugName= drugP.getDName().getText();
+			Drug drugFound=ManageDrug.searchDrug(drugName);
+			if(drugFound != null){
+			ManageDrug.setDrugInventory(drugFound, drugP);
+			}
+			else {
+				drugP.setDName();
+			}
+		}
 		else if(e.getSource()==newPatientP.getCancel()){
 			getContentPane().removeAll();
 			getContentPane().add(spatientP);
@@ -353,7 +369,9 @@ public class Gui extends JFrame implements ActionListener{
 		else if(e.getSource()==systemP.getLogout()){
 			System.out.println("logout pressed");
 			getContentPane().removeAll();
-			add(loginPanel);
+			getContentPane().add(picLabel);
+			userField.setText("");
+			passField.setText("");
 			revalidate();
 			repaint();
 		}

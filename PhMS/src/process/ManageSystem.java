@@ -1,7 +1,6 @@
 package process;
 
 import gui.Gui;
-import process.helper.InputChecker;
 import database.DatabaseProcess;
 import database.bean.Employee;
 

@@ -1,6 +1,9 @@
 package process;
 
+import gui.DrugInventoryPage;
 import database.bean.Drug;
+import database.DatabaseProcess;
+
 
 /**
  * @author Andy
@@ -11,7 +14,34 @@ public class ManageDrug {
 	 * @return
 	 */
 	public static Drug searchDrug(String drugName){
-		return null;
+		
+		Drug sDrug = new Drug();
+		sDrug.setDrugName(drugName);
+		sDrug=(Drug)DatabaseProcess.getRow(sDrug);
+		if(sDrug!=null)
+			return sDrug;
+		else return null;
+	}
+	
+	public static void setDrugInventory(Drug bean, DrugInventoryPage drugInv){
+		String name=bean.getDrugName();
+		drugInv.getTable().setValueAt(name, 1, 0);
+		
+		int quantity=bean.getQuantity();
+		drugInv.getTable().setValueAt(quantity, 1, 1);
+		
+		String general=bean.getDescription();
+		drugInv.setGeneralText(general);
+		
+		String effects=bean.getSideEffect();
+		drugInv.setEffectsText(effects);
+		
+		System.out.println(general);
+		
+		boolean flag=bean.getControlFlag();
+		drugInv.getTable().setValueAt(flag, 1, 2);
+
+		
 	}
 	/**
 	 * @param drug

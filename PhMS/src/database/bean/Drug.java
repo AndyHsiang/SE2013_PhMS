@@ -44,6 +44,9 @@ public class Drug {
 	public String getSideEffect() {
 		return sideEffect;
 	}
+	public boolean getControlFlag(){
+		return this.controlFlag;
+	}
 
 	/** setter: sets the drug's side effect to sideEffect
 	 * @param sideEffect
